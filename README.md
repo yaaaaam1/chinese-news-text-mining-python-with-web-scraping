@@ -1,4 +1,4 @@
-# EDA-of-Apple-News
+# Example: EDA of Chinese text in Dataframe with Python
 In this file, I use python to do basic text mining on Chinese text. The text I use is Apple News sample from 2013 to 2018 in Taiwan, and I have scraped all news using Beautifulsoap.(You can see how I scrape in another file)
 (Apple News Sample: 50 days news per year)
 The data are all in dataframe.
