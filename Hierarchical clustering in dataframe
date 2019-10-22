@@ -3,6 +3,7 @@ import scipy.cluster.hierarchy as hac
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
+( You can skip this part. I use it to reorganize the text within my dataframe)
 # Create a dataframe that group up all news together based on years 
 allnews = pd.DataFrame(columns = ['news'])
 for news in net:
