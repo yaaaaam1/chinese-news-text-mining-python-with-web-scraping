@@ -1,0 +1,47 @@
+import pandas as pd
+import numpy as np
+import glob
+import jieba
+import jieba.analyse
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+
+# add some words not in jieba dictionary
+words = {"資料來源","好蘋友","網友","原po","川普",'習近平','釣魚台','民進黨','伊斯蘭','伊斯蘭國','ISIS',
+         "網民","鄉民",'網友','原po',"蔡英文","蔡總統","小資族",'台幣','候選人','國民黨','立院','董事長',
+         "馬英九","馬總統","柯文哲","柯p","陳菊","動新聞","廣編特輯",'常春藤','實施','特首'}
+for word in words:
+    jieba.add_word(word)
+    
+# Stopwords list (download online)
+stopword = "D:/python/Text Mining/1003wordfq/nookword.txt"
+
+stop_f = open(stopword,"r",encoding='utf-8')
+stopwords = list()
+for line in stop_f.readlines():
+    line = line.strip()
+    if not len(line):
+        continue
+    stopwords.append(line)
+stop_f.close
+
+print(len(stopwords))
+
+
+# Read csv
+filenames = glob.glob("D:/python/Text Mining/1003news/imp*.csv")
+net = []
+for file in filenames:
+    net.append(pd.read_csv(file,header = 0,encoding = "cp950").astype(str))
+
+# Define a function for cutting words 
+def chinese_word_seg(text):
+    return " ".join(jieba.cut(text,HMM = True)) # using HMM method
+
+# Preprocessing
+for news in net:
+    news.news = news.news.str.replace('(.*?)http.*?\s?(.*?)', '', case=False) # Remove all url
+    news.news = news.news.str.replace('.+?(報導】)','',case = False) # remove some words at the beginning that are not included in news' text
+    news['news'] = news.news.apply(chinese_word_seg)
+    news['news'] = news.news.str.replace('[a-zA-Z0-9\./_]+', '', case=False) # Remove numbers and english
+    news['news'] = news.news.apply(lambda x: ' '.join([word for word in x.split() if word not in (stopwords)])) # delete stopwords
