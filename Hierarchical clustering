@@ -1,5 +1,7 @@
-# Using news of different years to do clustering
-
+# Using news of different years to do hierarchical clustering
+import scipy.cluster.hierarchy as hac
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pandas as pd
 
 # Create a dataframe that group up all news together based on years 
 allnews = pd.DataFrame(columns = ['news'])
