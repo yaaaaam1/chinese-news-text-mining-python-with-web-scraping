@@ -1,0 +1,25 @@
+# Using news of different years to do clustering
+
+
+# Create a dataframe that group up all news together based on years 
+allnews = pd.DataFrame(columns = ['news'])
+for news in net:
+    text = news.cutted.str.cat(sep = " ")
+    allnews = allnews.append({'news':text},ignore_index = True)
+allnews.index = ['2013','2014','2015','2016','2017','2018']
+# allnews[:1]
+
+# Words frequency based on tfidf
+words = 100 # I choose 100 words to do clustering, you can choose the number you want
+tf_vectorizer = CountVectorizer(strip_accents = None,
+                                max_features = words,
+                                stop_words='english')
+tf = tf_vectorizer.fit_transform(allnews.news)
+weight = tf.toarray()
+
+# Dendrogram 
+tree = hac.linkage(weight,method = 'complete',metric = 'euclidean')
+hac.dendrogram(tree1,labels = allnews.index)
+plt.ylabel('distance')
+plt.title('News')
+# You can see the result in the graph
