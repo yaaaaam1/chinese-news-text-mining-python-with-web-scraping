@@ -1,0 +1,33 @@
+# After preprocessing, we can count word and words frequency
+
+# Word Freqeuncy 中文單字字彙數
+# News are from 2013 to 2018
+year = 13
+for news in net:
+    # create a dictionary for putting all words
+    word_dic = []
+    # Count Frequency
+    for words in news.cutted:
+        for word in words:
+            word_dic.append({'word':word,'count':1})
+    # Creating a dataframe for the result
+    freqtable = pd.DataFrame(word_dic)
+    freqtable = freqtable.groupby('word')['count'].sum()
+    freqtable = pd.DataFrame(freqtable)
+    freqtable.sort_values( by = 'count',inplace = True,ascending = False)
+    freqtable.to_csv("D:/python/Text Mining/1016onewordfq/polfq%s.csv" % year,encoding = 'cp950')
+    year += 1
+    
+# Words Frequency 中文詞彙數
+# using tfidf
+tf_vectorizer = CountVectorizer(strip_accents = None, stop_words='english')
+
+year = 13
+for news in net:
+    tf = tf_vectorizer.fit_transform(news.cutted)
+    words = np.array(tf_vectorizer.get_feature_names())
+    weight = tf.toarray().sum(axis = 0)
+    wordfq = pd.DataFrame({'word':words,'freq':weight})
+    wordfq.sort_values(by = 'freq',inplace = True, ascending = False)
+    wordfq.to_csv('D:/python/Text Mining/1016wordsfq/int%s.csv'%year,encoding = 'cp950',index = False)
+    year+=1
