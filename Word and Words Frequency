@@ -1,5 +1,10 @@
 # After preprocessing, we can count word and words frequency
 
+import pandas as pd
+import jieba
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 # Word Freqeuncy 中文單字字彙數
 # News are from 2013 to 2018
 year = 13
