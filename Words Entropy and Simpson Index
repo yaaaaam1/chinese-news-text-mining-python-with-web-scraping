@@ -1,0 +1,44 @@
+
+entropydf = pd.DataFrame()
+def shannon(news):
+    total = news.sum(axis = 0)[1]
+    return sum(freq / total * log2(total / freq) for freq in news.freq)
+
+entropylist = []
+for news in text:
+    entropylist.append(shannon(news))
+entropydf['News'] = np.array(entropylist)
+
+years = np.array(range(2013,2019))
+entropydf['year'] = year
+entropydf.set_index('year',inplace = True)
+
+# Visualization
+lines = entropydf.plot.line(marker = 'o')
+plt.ylabel('Entropy')
+plt.title('Entropy of News')
+
+# If your number of words vary from different text, you can consider using Simpson Index instead of Entropy
+# Then you can remove the cause of the difference between the number of words in different text
+# We use -log(Simpson Index) here, making this index more similar to entropy
+
+# Define Simpson Index
+def SimpsonIndex(news):
+    total = news.sum(axis = 0)[1]
+    D = sum((freq/total)**2 for freq in news.freq)
+    return -log2(D)
+
+Simpsondf = pd.DataFrame()
+Simpsonlist = []
+for news in text:
+    Simpsonlist.append(SimpsonIndex(news))
+Simpsondf['Political'] = np.array(Simpsonlist)
+years = np.array(range(2013,2019))
+Simpsondf['year'] = years
+Simpsondf.set_index('year',inplace = True)
+
+# Visualization
+lines = Simpsondf.plot.line(marker = 'o')
+plt.ylabel('Simpson Index with -log')
+plt.legend(loc=[1.01, 0])
+plt.title('Simpson Index with -log of News')
