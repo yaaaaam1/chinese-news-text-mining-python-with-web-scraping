@@ -1,4 +1,4 @@
-# Example: EDA of Chinese text in Dataframe with Python
+# Example: Chinese text mining in Dataframe with Python
 In this file, I use python to do basic text mining on Chinese text. The text I use is Apple News sample from 2013 to 2018 in Taiwan, and I have scraped all news using Beautifulsoap.(You can see how I scrape in another file)
 (Apple News Sample: 50 days news per year)
 The data are all in pandas dataframe.
@@ -10,6 +10,7 @@ The data are all in pandas dataframe.
 2. Chinese word and words Frequency (tfidf)
 3. Shannon Entropy and Simpson Index of Chinese text
 4. Hierarchy Clustering (tfidf + scipy.cluster.hierarchy)
+5. Topic Modelling using LDA(with visualization using LDAvis)
 
 ## Details
 
@@ -33,3 +34,8 @@ In order to compare text's variety of news in different years, I compute Shannon
 With words frequency, we can do hierarchy clustering. In this part, you can choose max_feature in CountVectorizer to determine the words you are going to use in clustering. 
 ##### Here I combine result from different types of news:
 ![image](hiearchy.png)
+
+### 5. Topic Modelling using LDA(+LDAvis)
+After basic EDA, let's go on to topic modelling. I would count the proportion of each cluster. In addition, I will use LDAvis to see the result of LDA.
+##### cluster proportion example
+![image](topic_propotion.jpg)
