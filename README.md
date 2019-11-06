@@ -37,5 +37,5 @@ With words frequency, we can do hierarchy clustering. In this part, you can choo
 
 ### 5. Topic Modelling using LDA(+LDAvis)
 After basic EDA, let's go on to topic modelling. I would count the proportion of each cluster. In addition, I will use LDAvis to see the result of LDA.
-##### cluster proportion example
-![image](topic_propotion.jpg)
+##### cluster proportion example:
+![image](topic_proportion.jpg)
