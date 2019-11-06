@@ -1,8 +1,9 @@
 # Example: EDA of Chinese text in Dataframe with Python
 In this file, I use python to do basic text mining on Chinese text. The text I use is Apple News sample from 2013 to 2018 in Taiwan, and I have scraped all news using Beautifulsoap.(You can see how I scrape in another file)
 (Apple News Sample: 50 days news per year)
-The data are all in dataframe.
-
+The data are all in pandas dataframe.
+Here is the data:
+![image](cut.jpg)
 
 ## Content
 1. Chinese words Preprocessing (Jieba)
