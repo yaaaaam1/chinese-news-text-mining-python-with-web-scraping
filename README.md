@@ -22,7 +22,7 @@ In this part, I simply use Jieba to cut words, adding some words not in Jieba di
 ### 2. Chinese word and words Frequency
 In this part, I would make single word count and using CountVectorizer to count words frequency. Besides, I would convert all result into csv files.
 ##### Here are the text in each csv file:
-![image](wordsfq.png)
+![image](wordsfq.jpg)
 
 ### 3. Shannon Entropy and Simpson Index of Chinese text
 In order to compare text's variety of news in different years, I compute Shannon Entropy of those texts. However, the number of words of different texts would affect the result of entropy. Hence, I also compute Simpson Index, which can remove the impact caused by the number of words. 
