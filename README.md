@@ -2,7 +2,7 @@
 In this file, I use python to do basic text mining on Chinese text. The text I use is Apple News sample from 2013 to 2018 in Taiwan, and I have scraped all news using Beautifulsoap.(You can see how I scrape in another file)
 (Apple News Sample: 50 days news per year)
 The data are all in pandas dataframe.
-##### Here is the data:
+##### Here is the data(e.g. political news):
 ![image](original.jpg)
 
 ## Content
@@ -16,12 +16,12 @@ The data are all in pandas dataframe.
 ### 1. Chinese words Preprocessing
 In this part, I simply use Jieba to cut words, adding some words not in Jieba dictionary. In addition, I will remove url, english, numbers and stopwords here.
 (I download stopwords.txt online)
-##### After preprocessing, the data will be look like:
+##### After preprocessing, the data will be look like(e.g. political news):
 ![image](cut.jpg)
 
 ### 2. Chinese word and words Frequency
 In this part, I would make single word count and using CountVectorizer to count words frequency. Besides, I would convert all result into csv files.
-##### Here are the text in each csv file:
+##### Here are the text in each csv file(e.g. financial news):
 ![image](wordsfq.jpg)
 
 ### 3. Shannon Entropy and Simpson Index of Chinese text
