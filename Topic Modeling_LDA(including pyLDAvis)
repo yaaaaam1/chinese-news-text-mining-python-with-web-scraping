@@ -1,0 +1,50 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import nltk
+import pyLDAvis
+import pyLDAvis.sklearn
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+
+# After preporcessing (已進行分詞)
+
+# You can choose your "n_feutures", which means the number of words you select as features
+n_features = 1000 
+tf_vectorizer = CountVectorizer(strip_accents = None,
+                                max_features=n_features,
+                                stop_words=stopwords,
+                                max_df = 0.5,
+                                min_df = 10)
+
+#There are six data in news(news collected from 2013 to 2018)
+tf_list = []
+for text in news:
+    tf = tf_vectorizer.fit_transform(text.news)
+    tf_list.append(tf)
+    
+lda = LatentDirichletAllocation(n_components=5, max_iter=100,
+                                learning_method='batch',
+                                learning_offset=50.,
+                                random_state=0)
+                                
+# Here I use lda in each of the data one time for modelling
+# tf_list有六個dataframe各自的結果，我每次選一年的新聞來做topic modeling，主要是一次一種結果，仔細看topic modelling的狀況
+a = 0
+tf = tf_list[a]
+
+lda.fit(tf)
+topic_values = lda.transform(tf)
+net[a]['Topic'] = topic_values.argmax(axis=1)
+tf_feature_names = tf_vectorizer.get_feature_names()
+
+# We can see the proportion of each cluster we've modelled
+newsgroup = pd.crosstab(index = net[a].Topic,columns= "count", normalize='all')
+newsgroup
+
+# Finally, we can use pyLDAvis to see the result clearly in the plot
+pyLDAvis.enable_notebook()
+data = pyLDAvis.sklearn.prepare(lda, tf, tf_vectorizer)
+pyLDAvis.show(data)
+
+# If you want to save as html, you can use the code below
+# pyLDAvis.save_html(data, 'LDAvis.html')
