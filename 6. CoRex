@@ -1,0 +1,85 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import nltk
+import glob
+import jieba
+import pyLDAvis
+import jieba.analyse
+from gensim import corpora, models, similarities
+import scipy.sparse as ss
+from corextopic import corextopic as ct
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+
+# After preprocessing, this time, I use CoRex to do topic modelling
+# (see more information about CoRex: https://www.aclweb.org/anthology/Q17-1037.pdf)
+
+Dic = []
+text = []
+for news in net:
+    allwords = [word.split() for word in news.cutted]
+    dictionary = corpora.Dictionary(allwords)
+    text.append(allwords)
+    print(dictionary)
+    Dic.append(dictionary)
+
+Corpus = []
+for i in range(len(Dic)):
+    corpus = [Dic[i].doc2bow(word) for word in text[i]]
+    Corpus.append(corpus)
+    
+TF = []
+for corpus in Corpus:
+    tfidf = models.TfidfModel(corpus)
+    corpus_tfidf = tfidf[corpus]
+    TF.append(corpus_tfidf)
+    
+n_features = 10000
+tf_vectorizer = CountVectorizer(strip_accents = None,
+                                max_features=n_features,
+                                stop_words='english',
+                                max_df = 0.5,
+                                min_df = 10)
+                                
+# Once again, I select one data each time for topic modelling                            
+a = 0 (from 0 to 5)
+tf = tf_vectorizer.fit_transform(net[a].news)
+doc_word = ss.csr_matrix(tf)
+doc_word.shape
+words = list(np.asarray(tf_vectorizer.get_feature_names()))
+# word = tf_vectorizer.get_feature_names()
+# weight = tf.toarray()
+
+topic_model = ct.Corex(n_hidden = 6,words = words,max_iter = 2000)
+topic_model.fit(doc_word,words = words)
+topic_model.tc #越高越好 Overall Total Correlation(每個topic各自的correlation)
+
+plt.figure(figsize=(10,5))
+plt.title("Totall Correlation")
+plt.bar(range(topic_model.tcs.shape[0]), topic_model.tcs, color='#4e79a7', width=0.5)
+plt.xlabel('Topic', fontsize=16)
+plt.ylabel('Total Correlation (nats)', fontsize=16);
+# Topic20時，圖片看起來有點類似log的感覺，代表也可能像Kmeans一樣第一個Topic涵蓋混雜的主題們。
+
+# Print all topics from the CorEx topic model
+topics = topic_model.get_topics()
+for n,topic in enumerate(topics):
+    topic_words,_ = zip(*topic)
+    print('{}: '.format(n) + ','.join(topic_words))
+#單一topic詞彙
+# topic_model.get_topics(topic= 5, n_words=50)
+
+anchor_words = [
+    ['立委','立院','立法院','協商','草案','修法','修改','勞工','正義'],
+    ['兩岸','溝通','台灣','中國'],
+    ["政策","改革",'提案','轉型',"法案",'解決','執政',"推動","目標",'行政院'],
+    ["競選","國民黨","黨內","民進黨","參選","黨籍","選舉","人士","支持",'選票',"提名",'當選','選區']
+]
+anchored_topic_model = ct.Corex(n_hidden=len(anchor_words), seed=2)
+anchored_topic_model.fit(doc_word, words=words, anchors=anchor_words, anchor_strength=6);
+
+for n in range(len(anchor_words)):
+    topic_words,_ = zip(*anchored_topic_model.get_topics(topic=n))
+    print('{}: '.format(n) + ','.join(topic_words))
+    
+anchored_topic_model.get_topics(topic= 2, n_words=50)
