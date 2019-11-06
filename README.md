@@ -28,4 +28,4 @@ In order to compare text's variety of news in different years, I compute Shannon
 ### 4. Hiearchy Clustering 
 With words frequency, we can do hierarchy clustering. In this part, you can choose max_feature in CountVectorizer to determine the words you are going to use in clustering. 
 ##### Here I combine result from different types of news:
-![image](hiearchy.jpg)
+![image](hiearchy.png)
