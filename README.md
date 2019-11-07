@@ -1,13 +1,21 @@
-# Example: Chinese text mining in Dataframe with Python
-In this file, I use python to do basic text mining on Chinese text. The text I use is Apple News sample from 2013 to 2018 in Taiwan, and I have scraped all news using Beautifulsoap.(You can see how I scrape in another file)
+# Example: Chinese News text mining in Dataframe with Python(蘋果日報文本分析)
+In this file, I use python to do basic text mining on Chinese text. The text I use is Apple News sample from 2013 to 2018 in Taiwan, and I have scraped all news using Beautifulsoap.The data are all saved as Pandas dataframe.
 (Apple News Sample: 50 days news per year)
-The data are all in pandas dataframe.
+#### News include:
+1. Important News
+2. Entertainment News
+3. International News
+4. Financial News
+5. Political News
+##### 
+這個分析我用網路爬蟲取得蘋果日報2013年至2018年中美年隨機選取50天的新聞(含有要聞版、娛樂版、國際板、財經版、政治板)，使用他們分析皮果日報的新聞整體概況。
+
 ##### Here is the data(e.g. political news):
 ![image](original.jpg)
 
 ## Content
-1. Chinese words Preprocessing (Jieba)
-2. Chinese word and words Frequency (tfidf)
+1. Chinese words Preprocessing (Jieba)（中文斷詞、去除停止詞）
+2. Chinese word and words Frequency (tfidf)（使用tfidf計算詞頻）
 3. Shannon Entropy and Simpson Index of Chinese text
 4. Hierarchy Clustering (tfidf + scipy.cluster.hierarchy)
 5. Topic Modelling using LDA(with visualization using LDAvis)
