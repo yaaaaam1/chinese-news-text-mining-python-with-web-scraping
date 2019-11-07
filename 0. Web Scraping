@@ -1,0 +1,59 @@
+import requests
+from bs4 import BeautifulSoup
+import csv
+import time
+import random
+
+# 這邊我使用國際板作為蘋果日報爬蟲的範例。
+# Web Scrape on International News from Apple Daily News 
+# Open csv for the text we are going to scrape
+file_obj = open('2018_international.csv', 'w', encoding="utf-8_sig", newline='')
+writer = csv.writer(file_obj)
+
+# Randomly choose fifty days of 2018 for scraping 
+random.seed(11)
+s = (2018,1,1,0,0,0,0,0,0)
+e = (2018,12,31,23,59,59,0,0,0)
+date_start = time.mktime(s)
+date_end = time.mktime(e)
+date_list = []
+
+#For those being chosen, we scraped the text 
+for i in range(50):
+    r_date = random.randint(date_start,date_end)
+    chosen_date = time.localtime(r_date)
+    date = time.strftime("%Y%m%d",chosen_date)
+    r = requests.get('https://tw.appledaily.com/appledaily/archive/'+date)
+    soup = BeautifulSoup(r.text,"html.parser")
+#     print(soup.prettify())
+#     print(date)
+
+# 其他版新聞只要更改class的部分即可
+# You can change class_ if you want to scrape other types of news
+# International News: class_ = "nclns eclnms7"
+# Financial News: class_ = "nclns eclnms8"
+# Entertainment News: class_ = "nclns eclnms9"
+# Important News: (....class_ = "nclns eclnms5")[1]
+# Political News: (....class_ = "nclns eclnms5")[4]
+
+    news = soup.find_all('article',class_ = "nclns eclnms7")
+    for article in news:
+        links = article.find_all('a')
+    #     print(links)
+        for a in links:
+    #         print(a.get('href'))
+            r2 = requests.get(a.get('href'))
+            soup2 = BeautifulSoup(r2.text,"html.parser")
+            news = soup2.article.find("div",class_="ndArticle_margin").find_all('p')
+            tmp = []
+            for p in news:
+                content = p.text
+                tmp.append(content)
+#                 print(content)
+            file_obj.write(content)
+#     print("Finish_Day：")
+#     print(i+1)
+
+#         print("----")
+#  print("Finish Scraping")
+file_obj.close()
