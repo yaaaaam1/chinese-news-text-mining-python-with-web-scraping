@@ -30,7 +30,7 @@ print(len(stopwords))
 
 # Read csv
 filenames = glob.glob("D:/python/Text Mining/1003news/imp*.csv")
-net = []
+allnews = []
 for file in filenames:
     net.append(pd.read_csv(file,header = 0,encoding = "cp950").astype(str))
 
@@ -39,7 +39,7 @@ def chinese_word_seg(text):
     return " ".join(jieba.cut(text,HMM = True)) # using HMM method
 
 # Preprocessing
-for news in net:
+for news in allnews:
     news.news = news.news.str.replace('(.*?)http.*?\s?(.*?)', '', case=False) # Remove all url
     news.news = news.news.str.replace('.+?(報導】)','',case = False) # remove some words at the beginning that are not included in news' text
     news['news'] = news.news.apply(chinese_word_seg)
