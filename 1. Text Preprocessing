@@ -32,7 +32,7 @@ print(len(stopwords))
 filenames = glob.glob("D:/python/Text Mining/1003news/imp*.csv")
 allnews = []
 for file in filenames:
-    net.append(pd.read_csv(file,header = 0,encoding = "cp950").astype(str))
+    allnews.append(pd.read_csv(file,header = 0,encoding = "cp950").astype(str))
 
 # Define a function for cutting words 
 def chinese_word_seg(text):
