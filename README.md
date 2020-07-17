@@ -58,3 +58,5 @@ After basic EDA, let's go on to topic modeling. I would count the proportion of 
 
 ### 6. Topic Modeling with Minimum Domain Knowledge(CorEX)
 I use CorEX package to improve my topic modeling with some domain knowledge. 
+(You can see more information about CorEX through this link: https://www.aclweb.org/anthology/Q17-1037.pdf)
+
